@@ -1,0 +1,70 @@
+version: '3.9'
+
+services:
+  # ─── PostgreSQL ──────────────────────────────────────────
+  postgres:
+    image: postgres:16-alpine
+    container_name: hd_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: hd_user
+      POSTGRES_PASSWORD: hd_password
+      POSTGRES_DB: hd_portfolio
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U hd_user -d hd_portfolio"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ─── FastAPI Backend ─────────────────────────────────────
+  api:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: hd_api
+    restart: unless-stopped
+    environment:
+      DATABASE_URL: postgresql://hd_user:hd_password@postgres:5432/hd_portfolio
+      SECRET_KEY: change-me-in-production-use-long-random-string
+      REFRESH_SECRET_KEY: change-me-refresh-use-different-long-random-string
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend/uploads:/app/uploads
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  # ─── Portfolio (Angular 19) ───────────────────────────────
+  portfolio:
+    build:
+      context: ./portfolio
+      dockerfile: Dockerfile
+    container_name: hd_portfolio
+    restart: unless-stopped
+    ports:
+      - "4300:4300"
+    volumes:
+      - ./portfolio:/app
+      - /app/node_modules
+    depends_on:
+      - api
+
+  # ─── Admin (Angular 19) ───────────────────────────────────
+  admin:
+    build:
+      context: ./admin
+      dockerfile: Dockerfile
+    container_name: hd_admin
+    restart: unless-stopped
+    ports:
+      - "4301:80"
+    depends_on:
+      - api
+
+volumes:
+  postgres_data:
