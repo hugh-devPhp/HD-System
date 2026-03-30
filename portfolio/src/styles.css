@@ -211,3 +211,276 @@ body::after {
 @media (max-width: 768px) {
   .container { padding: 0 1.25rem; }
 }
+/* ═══════════════════════════════════════════════════════════
+   LIGHT MODE THEME — COMPLET
+   ═══════════════════════════════════════════════════════════ */
+
+:root[data-theme="light"] {
+  --brand-red:       #D4001A;
+  --brand-red-dim:   #8B0011;
+  --brand-red-glow:  rgba(212, 0, 26, 0.12);
+
+  --white:           #0A0A0A;
+  --white-80:        rgba(10,10,10,0.80);
+  --white-50:        rgba(10,10,10,0.50);
+  --white-20:        rgba(10,10,10,0.20);
+  --white-08:        rgba(10,10,10,0.08);
+  --white-04:        rgba(10,10,10,0.04);
+
+  --bg-void:         #F8F8F8;
+  --bg-deep:         #F2F2F2;
+  --bg-surface:      #EAEAEA;
+  --bg-elevated:     #FFFFFF;
+  --bg-card:         #FFFFFF;
+}
+
+/* ─── BASE ───────────────────────────────────────────────── */
+:root[data-theme="light"] body {
+  background-color: #F8F8F8;
+  color: #0A0A0A;
+}
+
+:root[data-theme="light"] body::after {
+  opacity: 0.015;
+}
+
+/* ─── SCROLLBAR ──────────────────────────────────────────── */
+:root[data-theme="light"] ::-webkit-scrollbar-track {
+  background: #F2F2F2;
+}
+:root[data-theme="light"] ::-webkit-scrollbar-thumb {
+  background: rgba(212,0,26,0.3);
+}
+
+/* ─── NAVBAR ─────────────────────────────────────────────── */
+:root[data-theme="light"] .navbar.scrolled {
+  background: rgba(248,248,248,0.92);
+  border-bottom-color: rgba(0,0,0,0.08);
+}
+
+:root[data-theme="light"] .nav-links a {
+  color: rgba(10,10,10,0.55);
+}
+:root[data-theme="light"] .nav-links a:hover {
+  color: #0A0A0A;
+}
+:root[data-theme="light"] .nav-links .nav-cta {
+  color: #D4001A;
+  border-color: rgba(212,0,26,0.35);
+}
+:root[data-theme="light"] .nav-links .nav-cta:hover {
+  background: #D4001A;
+  color: #fff;
+}
+
+/* ─── HERO ───────────────────────────────────────────────── */
+:root[data-theme="light"] .hero {
+  background: #F8F8F8;
+}
+:root[data-theme="light"] .hero-grid {
+  background-image:
+    linear-gradient(rgba(0,0,0,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,0,0,0.04) 1px, transparent 1px);
+}
+:root[data-theme="light"] .glow-orb {
+  background: radial-gradient(ellipse, rgba(212,0,26,0.07) 0%, transparent 70%);
+}
+:root[data-theme="light"] .scanline {
+  background: linear-gradient(90deg, transparent, rgba(212,0,26,0.4), transparent);
+}
+:root[data-theme="light"] .logo-frame::before {
+  border-color: rgba(212,0,26,0.25);
+}
+:root[data-theme="light"] .name-label {
+  color: rgba(10,10,10,0.35);
+}
+:root[data-theme="light"] .hero-tagline {
+  color: #0A0A0A;
+}
+:root[data-theme="light"] .hero-intro {
+  color: rgba(10,10,10,0.5);
+}
+:root[data-theme="light"] .btn-outline {
+  color: #0A0A0A;
+  border-color: rgba(0,0,0,0.18);
+}
+:root[data-theme="light"] .btn-outline:hover {
+  border-color: #0A0A0A;
+}
+:root[data-theme="light"] .scroll-indicator {
+  color: rgba(10,10,10,0.25);
+}
+
+/* ─── DIVIDER ────────────────────────────────────────────── */
+:root[data-theme="light"] .divider {
+  background: linear-gradient(90deg, transparent, rgba(0,0,0,0.1), transparent);
+}
+
+/* ─── ABOUT ──────────────────────────────────────────────── */
+:root[data-theme="light"] .about-section {
+  background: linear-gradient(to bottom, #F8F8F8, #F2F2F2);
+}
+:root[data-theme="light"] .about-section::before {
+  color: rgba(0,0,0,0.03);
+}
+:root[data-theme="light"] .identity-card {
+  background: rgba(0,0,0,0.02);
+  border-color: rgba(0,0,0,0.07);
+}
+:root[data-theme="light"] .identity-card:hover {
+  background: rgba(212,0,26,0.03);
+  border-color: rgba(212,0,26,0.2);
+}
+:root[data-theme="light"] .identity-label {
+  color: #0A0A0A;
+}
+:root[data-theme="light"] .identity-desc {
+  color: rgba(10,10,10,0.4);
+}
+:root[data-theme="light"] .about-stats {
+  border-top-color: rgba(0,0,0,0.07);
+}
+:root[data-theme="light"] .stat-label {
+  color: rgba(10,10,10,0.35);
+}
+:root[data-theme="light"] .narrative-text {
+  color: rgba(10,10,10,0.65);
+}
+:root[data-theme="light"] blockquote {
+  color: rgba(10,10,10,0.5);
+}
+
+/* ─── PROJECTS ───────────────────────────────────────────── */
+:root[data-theme="light"] .projects-section {
+  background: #F2F2F2;
+}
+:root[data-theme="light"] .section-sub {
+  color: rgba(10,10,10,0.4);
+}
+:root[data-theme="light"] .project-card {
+  background: #FFFFFF;
+  border-color: rgba(0,0,0,0.07);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+:root[data-theme="light"] .project-card:hover {
+  border-color: rgba(212,0,26,0.2);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.10);
+}
+:root[data-theme="light"] .project-title {
+  color: #0A0A0A;
+}
+:root[data-theme="light"] .project-desc {
+  color: rgba(10,10,10,0.5);
+}
+:root[data-theme="light"] .tech-tag {
+  color: rgba(10,10,10,0.45);
+  background: rgba(0,0,0,0.04);
+  border-color: rgba(0,0,0,0.08);
+}
+:root[data-theme="light"] .icon-link {
+  color: rgba(10,10,10,0.3);
+}
+:root[data-theme="light"] .icon-link:hover {
+  color: #0A0A0A;
+}
+
+/* ─── STORIES ────────────────────────────────────────────── */
+:root[data-theme="light"] .stories-section {
+  background: linear-gradient(to bottom, #F2F2F2, #F8F8F8);
+}
+:root[data-theme="light"] .filmstrip {
+  border-color: rgba(0,0,0,0.06);
+}
+:root[data-theme="light"] .frame {
+  border-right-color: rgba(0,0,0,0.06);
+  color: rgba(0,0,0,0.1);
+}
+:root[data-theme="light"] .filter-btn {
+  color: rgba(10,10,10,0.4);
+  background: rgba(0,0,0,0.03);
+  border-color: rgba(0,0,0,0.08);
+}
+:root[data-theme="light"] .filter-btn:hover {
+  color: #0A0A0A;
+  border-color: rgba(0,0,0,0.18);
+}
+:root[data-theme="light"] .filter-btn.active {
+  color: #D4001A;
+  background: rgba(212,0,26,0.06);
+  border-color: rgba(212,0,26,0.25);
+}
+:root[data-theme="light"] .story-card {
+  background: #FFFFFF;
+  border-color: rgba(0,0,0,0.07);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+:root[data-theme="light"] .story-card:hover {
+  border-color: rgba(212,0,26,0.18);
+  box-shadow: 0 10px 32px rgba(0,0,0,0.10);
+}
+:root[data-theme="light"] .story-title {
+  color: #0A0A0A;
+}
+:root[data-theme="light"] .story-excerpt {
+  color: rgba(10,10,10,0.5);
+}
+:root[data-theme="light"] .story-meta {
+  color: rgba(10,10,10,0.3);
+}
+:root[data-theme="light"] .meta-dot {
+  background: rgba(10,10,10,0.2);
+}
+:root[data-theme="light"] .story-status.published {
+  color: rgba(30,140,30,0.7);
+}
+
+/* ─── CONTACT ────────────────────────────────────────────── */
+:root[data-theme="light"] .contact-section {
+  background: #F8F8F8;
+}
+:root[data-theme="light"] .contact-section::before {
+  background: radial-gradient(ellipse, rgba(212,0,26,0.06) 0%, transparent 70%);
+}
+:root[data-theme="light"] .contact-title {
+  color: rgba(10,10,10,0.85);
+}
+:root[data-theme="light"] .contact-message {
+  color: rgba(10,10,10,0.45);
+}
+:root[data-theme="light"] .whatsapp-btn {
+  color: rgba(10,10,10,0.6);
+  border-color: rgba(0,0,0,0.12);
+}
+:root[data-theme="light"] .whatsapp-btn:hover {
+  background: rgba(0,0,0,0.04);
+  border-color: rgba(0,0,0,0.22);
+  color: #0A0A0A;
+}
+:root[data-theme="light"] .site-footer {
+  border-top-color: rgba(0,0,0,0.07);
+}
+:root[data-theme="light"] .footer-brand,
+:root[data-theme="light"] .footer-copy {
+  color: rgba(10,10,10,0.3);
+}
+
+/* ─── THEME TOGGLE BUTTON ────────────────────────────────── */
+.theme-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  background: var(--white-04);
+  border: 1px solid var(--white-08);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  color: var(--white-50);
+  flex-shrink: 0;
+}
+.theme-toggle:hover {
+  background: var(--white-08);
+  color: var(--white);
+  border-color: var(--white-20);
+}
