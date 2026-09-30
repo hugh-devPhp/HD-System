@@ -1,11 +1,12 @@
 import { Component, Input, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterLink } from '@angular/router';
 import { Writing } from '../../services/portfolio-api.service';
 
 @Component({
   selector: 'app-stories',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: "./stories.component.html",
   styleUrls: ["./stories.component.scss"]
 })

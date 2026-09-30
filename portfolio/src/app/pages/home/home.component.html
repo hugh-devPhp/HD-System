@@ -1,0 +1,24 @@
+<app-hero
+  [tagline]="content['tagline'] || 'Engineer of Systems. Writer of Stories.'"
+  [intro]="content['hero_intro'] || 'I build software that works and write stories that matter. Two crafts. One vision.'"
+></app-hero>
+
+<div class="divider"></div>
+
+<app-about
+  [aboutText]="content['about_text'] || ''"
+></app-about>
+
+<div class="divider"></div>
+
+<app-projects [projects]="projects"></app-projects>
+
+<div class="divider"></div>
+
+<app-stories [writings]="writings"></app-stories>
+
+<app-contact
+  [message]="content['contact_message'] || ''"
+  [email]="content['email'] || ''"
+  [whatsapp]="content['whatsapp'] || ''"
+></app-contact>

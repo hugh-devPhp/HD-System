@@ -14,7 +14,7 @@ export class AboutComponent {
   get formattedText(): string {
     return this.aboutText
       .split('\n\n')
-      .map(p => `<p style="margin-bottom:1.2rem">${p}</p>`)
+      .map(p => `<p>${p}</p>`)
       .join('');
   }
 }

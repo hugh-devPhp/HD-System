@@ -47,7 +47,9 @@
           </span>
         </div>
 
-        <h3 class="story-title">{{ story.title }}</h3>
+        <h3 class="story-title">
+          <a class="story-link" [routerLink]="['/stories', story.id]">{{ story.title }}</a>
+        </h3>
 
         <p class="story-excerpt" *ngIf="story.excerpt">{{ story.excerpt }}</p>
         <p class="story-excerpt" *ngIf="!story.excerpt">

@@ -2,6 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, map } from 'rxjs';
 import { environment } from '../../environments/environment';
+import { SERVER_API_URL } from './api-url.token';
 
 export interface Project {
   id: number;
@@ -27,6 +28,7 @@ export interface Writing {
   cover_image?: string;
   order: number;
   created_at: string;
+  updated_at?: string;
 }
 
 export interface HomepageContent {
@@ -36,7 +38,7 @@ export interface HomepageContent {
 @Injectable({ providedIn: 'root' })
 export class PortfolioApiService {
   private http = inject(HttpClient);
-  private api = environment.apiUrl;
+  private api = inject(SERVER_API_URL, { optional: true }) ?? environment.apiUrl;
 
   getProjects(featured?: boolean): Observable<Project[]> {
     const params = featured !== undefined ? `?featured=${featured}` : '';
@@ -45,6 +47,10 @@ export class PortfolioApiService {
 
   getWritings(status = 'published'): Observable<Writing[]> {
     return this.http.get<Writing[]>(`${this.api}/writing?status=${status}`);
+  }
+
+  getWriting(id: number): Observable<Writing> {
+    return this.http.get<Writing>(`${this.api}/writing/${id}`);
   }
 
   getHomepageContent(): Observable<HomepageContent> {

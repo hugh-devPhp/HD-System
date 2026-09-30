@@ -1,14 +1,14 @@
 <nav class="navbar" [class.scrolled]="scrolled()">
     <div class="nav-inner container">
-        <a href="#hero" class="nav-logo">
+        <a routerLink="/" fragment="hero" class="nav-logo">
             <span class="logo-text">HD</span>
         </a>
 
         <div class="nav-links" [class.open]="menuOpen()">
-            <a href="#about" (click)="closeMenu()">About</a>
-            <a href="#projects" (click)="closeMenu()">Projects</a>
-            <a href="#stories" (click)="closeMenu()">Stories</a>
-            <a href="#contact" (click)="closeMenu()" class="nav-cta">Contact</a>
+            <a routerLink="/" fragment="about" (click)="closeMenu()">About</a>
+            <a routerLink="/" fragment="projects" (click)="closeMenu()">Projects</a>
+            <a routerLink="/" fragment="stories" (click)="closeMenu()">Stories</a>
+            <a routerLink="/" fragment="contact" (click)="closeMenu()" class="nav-cta">Contact</a>
         </div>
         <!-- Colle ce bloc juste avant <button class="nav-burger"> -->
         <button class="theme-toggle" (click)="theme.toggle()"

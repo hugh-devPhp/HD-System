@@ -12,9 +12,10 @@ a software engineer who writes screenplays.
 ```
 hd-system/
 ├── backend/          FastAPI · Python 3.12 · PostgreSQL
-├── portfolio/        Angular 19 · Public Portfolio (port 4200)
-├── admin/            Angular 19 · Private CMS Dashboard (port 4201)
-└── docker-compose.yml
+├── portfolio/        Angular 19 · Public Portfolio (port 4300)
+├── admin/            Angular 19 · Private CMS Dashboard (port 4301)
+├── docker-compose.yml
+└── DETTE_TECHNIQUE.md  Known technical debt & planned improvements
 ```
 
 **Data flow:**
@@ -47,10 +48,14 @@ docker-compose up --build
 
 | Service    | URL                        |
 |------------|----------------------------|
-| Portfolio  | http://localhost:4200       |
-| Admin      | http://localhost:4201       |
+| Portfolio  | http://localhost:4300       |
+| Admin      | http://localhost:4301       |
 | API        | http://localhost:8000       |
 | API Docs   | http://localhost:8000/api/docs |
+
+> The API container runs `seed.py` on every start (idempotent: creates tables, admin user and sample content if missing).
+> The `portfolio` container currently runs the Angular **dev server** (`ng serve`) with the source mounted as a volume;
+> the `admin` container serves a production build through nginx.
 
 ### 3. Login to Admin
 ```
@@ -100,7 +105,7 @@ uvicorn main:app --reload --port 8000
 ```bash
 cd portfolio
 npm install
-npm start        # Runs on http://localhost:4200
+npm start        # Runs on http://localhost:4300
 ```
 
 ### Admin (Angular 19)
@@ -108,8 +113,10 @@ npm start        # Runs on http://localhost:4200
 ```bash
 cd admin
 npm install
-npm start        # Runs on http://localhost:4201
+npm start        # Runs on http://localhost:4301
 ```
+
+> CORS in `backend/main.py` only allows `http://localhost:4300` and `http://localhost:4301`.
 
 ---
 
@@ -128,6 +135,7 @@ All admin endpoints require `Authorization: Bearer <token>` header.
 |--------|--------------------|------|--------------------|
 | GET    | /projects          | ✗    | List all projects  |
 | GET    | /projects?featured=true | ✗ | Featured only    |
+| GET    | /projects/{id}     | ✗    | Get one project    |
 | POST   | /projects          | ✓    | Create project     |
 | PUT    | /projects/{id}     | ✓    | Update project     |
 | DELETE | /projects/{id}     | ✓    | Delete project     |
@@ -135,9 +143,11 @@ All admin endpoints require `Authorization: Bearer <token>` header.
 ### Writing
 | Method | Endpoint           | Auth | Description        |
 |--------|--------------------|------|--------------------|
-| GET    | /writing           | ✗    | List all entries   |
+| GET    | /writing           | ✗    | List all entries (drafts included) |
 | GET    | /writing?status=published | ✗ | Published only |
 | GET    | /writing?type=film_idea   | ✗ | By type        |
+| GET    | /writing?featured=true    | ✗ | Featured only  |
+| GET    | /writing/{id}      | ✗    | Get one entry (any status) |
 | POST   | /writing           | ✓    | Create entry       |
 | PUT    | /writing/{id}      | ✓    | Update entry       |
 | DELETE | /writing/{id}      | ✓    | Delete entry       |
@@ -198,15 +208,36 @@ All admin endpoints require `Authorization: Bearer <token>` header.
 
 ---
 
-## Portfolio Website — Sections
+## Portfolio Website
+
+### Routes
+
+| Route          | Page          | Notes                                                    |
+|----------------|---------------|----------------------------------------------------------|
+| `/`            | Home          | All sections below; navbar links use `/#section` anchors |
+| `/stories/:id` | Story detail  | Full text rendered from Markdown; drafts → "not found"   |
+
+### Home — Sections
 
 | Section     | Content source         | Notes                          |
 |-------------|------------------------|--------------------------------|
 | Hero        | `/homepage` API        | Title, tagline, intro text     |
 | About       | `/homepage` API        | Narrative bio text             |
 | Projects    | `/projects` API        | All projects, grid layout      |
-| Stories     | `/writing?status=published` API | Filterable by type |
+| Stories     | `/writing?status=published` API | Filterable by type, each card links to its detail page |
 | Contact     | `/homepage` API        | Email + WhatsApp buttons       |
+
+### Server-Side Rendering & SEO
+
+The portfolio uses **Angular SSR** (rendered on each request, no prerendering, so CMS changes show up immediately):
+
+- Each page sets its own `<title>`, description, Open Graph tags and canonical URL (`SeoService`).
+  Unknown or unpublished stories are marked `noindex`.
+- The SSR server (`src/server.ts`) also serves `/robots.txt` and a dynamic `/sitemap.xml`
+  (home + every published story).
+- Absolute URLs use `siteUrl` from `src/environments/`.
+- `API_INTERNAL_URL` (optional) lets the server reach the API through a different URL than the browser
+  (e.g. `http://api:8000` inside Docker); the browser reuses the server's responses via the HTTP transfer cache.
 
 ---
 
@@ -220,6 +251,9 @@ All admin endpoints require `Authorization: Bearer <token>` header.
 | Display font| Bebas Neue                |
 | Body font   | Outfit                    |
 | Mono font   | DM Mono                   |
+
+The portfolio defaults to the dark theme and offers a **light theme** toggle in the navbar
+(`ThemeService`, persisted in `localStorage` under `hd-theme`, applied via `data-theme` on `<html>`).
 
 ---
 
@@ -253,8 +287,10 @@ REFRESH_SECRET_KEY=<different-64-char-random-string>
 
 ### Frontend Production Builds
 ```bash
-# Portfolio — update src/environments/environment.prod.ts with your API URL first
+# Portfolio — update apiUrl and siteUrl in src/environments/environment.prod.ts first
 cd portfolio && npm run build
+# SSR build: run it with Node (not as static files), default port 4000
+PORT=4000 API_INTERNAL_URL=<api-url-reachable-from-server> npm run serve:ssr:portfolio
 
 # Admin — update src/environments/environment.ts with your API URL
 cd admin && npm run build
@@ -272,12 +308,14 @@ cd admin && npm run build
 | Database    | PostgreSQL              | 16        |
 | Auth        | python-jose (JWT)       | 3.3       |
 | Frontend    | Angular                 | 19        |
+| SSR         | Angular SSR + Express   | 19 / 4    |
+| Markdown    | marked                  | 15        |
 | Language    | TypeScript              | 5.6       |
 | State       | Angular Signals         | native    |
 | HTTP        | Angular HttpClient      | native    |
 | Styling     | CSS Custom Properties   | native    |
 | Container   | Docker + Docker Compose | latest    |
-| Web server  | nginx (Alpine)          | latest    |
+| Web server  | nginx (Alpine) — admin  | latest    |
 
 ---
 
@@ -308,16 +346,25 @@ hd-system/
 ├── portfolio/                     # Public-facing Angular 19 app
 │   ├── src/
 │   │   ├── main.ts
+│   │   ├── main.server.ts         # SSR bootstrap
+│   │   ├── server.ts              # Express SSR server + robots.txt / sitemap.xml
 │   │   ├── index.html
 │   │   ├── styles.css             # Global dark cinematic theme
-│   │   ├── environments/
+│   │   ├── environments/          # apiUrl + siteUrl
 │   │   └── app/
-│   │       ├── app.component.ts   # Root orchestrator
+│   │       ├── app.component.ts   # Navbar + router outlet
 │   │       ├── app.config.ts
-│   │       ├── app.routes.ts
+│   │       ├── app.config.server.ts   # Server-only providers (API_INTERNAL_URL)
+│   │       ├── app.routes.ts      # / and /stories/:id
+│   │       ├── pages/             # Each: .ts + .html + .scss
+│   │       │   ├── home/          # Loads content, hosts the sections
+│   │       │   └── story-detail/  # Full story, Markdown rendering
 │   │       ├── services/
-│   │       │   └── portfolio-api.service.ts
-│   │       └── components/
+│   │       │   ├── portfolio-api.service.ts
+│   │       │   ├── seo.service.ts         # Title, meta, Open Graph, canonical
+│   │       │   ├── api-url.token.ts       # Server-side API URL token
+│   │       │   └── theme.service.ts       # Dark / light theme toggle
+│   │       └── components/            # Each: .ts + .html + .scss
 │   │           ├── navbar/
 │   │           ├── hero/
 │   │           ├── about/
@@ -349,10 +396,10 @@ hd-system/
 │   │       │   ├── auth.service.ts
 │   │       │   ├── admin-api.service.ts
 │   │       │   └── toast.service.ts
-│   │       ├── components/
+│   │       ├── components/            # Each: .ts + .html + .css
 │   │       │   ├── sidebar/
 │   │       │   └── topbar/
-│   │       └── pages/
+│   │       └── pages/                 # Each: .ts + .html + .css
 │   │           ├── login/
 │   │           ├── dashboard/
 │   │           ├── projects/
@@ -368,10 +415,17 @@ hd-system/
 │
 ├── docker-compose.yml
 ├── .gitignore
+├── DETTE_TECHNIQUE.md
 └── README.md
 ```
 
 ---
 
+## Technical Debt
+
+Known issues and planned improvements (security, README/code drift, backend, frontend, tooling)
+are tracked in [DETTE_TECHNIQUE.md](DETTE_TECHNIQUE.md).
+
+---
+
 *HD Portfolio System · Built with precision · © Hugues-Devallois*
-# HD-System

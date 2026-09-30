@@ -46,7 +46,8 @@
 
       <!-- Right: narrative text -->
       <div class="about-narrative">
-        <p class="narrative-text" [innerHTML]="formattedText"></p>
+        <!-- div, not p: the injected paragraphs cannot be nested in a <p> (breaks SSR hydration) -->
+        <div class="narrative-text" [innerHTML]="formattedText"></div>
 
         <div class="about-quote">
           <div class="quote-bar"></div>

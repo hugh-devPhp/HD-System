@@ -17,11 +17,11 @@ Cocher les éléments au fur et à mesure qu'ils sont traités.
 
 ## 🟠 README désynchronisé du code
 
-- [ ] **Ports** — le README indique 4200/4201 alors que `package.json`, `docker-compose.yml` et CORS utilisent 4300/4301.
+- [x] **Ports** — le README indique désormais 4300/4301 comme `package.json`, `docker-compose.yml` et CORS.
 - [ ] **CORS en dur** — `allow_origins` codé en dur dans `backend/main.py` ; le passer en variable d'environnement.
-- [ ] **Portfolio servi en mode dev** — le README annonce nginx, mais `portfolio/Dockerfile` lance `ng serve`. Faire un build multi-stage nginx (comme l'admin) et réserver le montage de volume à un `docker-compose.override.yml` de dev.
+- [ ] **Portfolio servi en mode dev** — `portfolio/Dockerfile` lance `ng serve`. Avec le SSR, l'image de prod doit être un build multi-stage qui lance `node dist/portfolio/server/server.mjs` ; réserver le montage de volume à un `docker-compose.override.yml` de dev.
 - [ ] **Pas d'environnement prod pour l'admin** — créer `admin/src/environments/environment.prod.ts` avec `fileReplacements` dans `angular.json`.
-- [ ] **Documentation** — `# HD-System` orphelin en fin de README ; `GET /writing/{id}` non documenté.
+- [x] **Documentation** — `# HD-System` orphelin retiré ; `GET /projects/{id}`, `GET /writing/{id}` et `?featured=` documentés ; thème clair, découpage des composants et comportement réel des conteneurs décrits.
 
 ## 🟡 Backend — Qualité et maintenabilité
 
@@ -36,9 +36,11 @@ Cocher les éléments au fur et à mesure qu'ils sont traités.
 
 - [x] **Découpage des composants admin** — templates et styles inline (pages de 230 à 450 lignes) extraits en fichiers `.html` / `.css`.
 - [x] **Découpage du portfolio** — `about`, `contact`, `hero`, `projects`, `stories` utilisent désormais leurs fichiers `.html` / `.scss` (comme `navbar`).
-- [ ] **`[innerHTML]`** dans `portfolio/.../about.component.ts` — vérifier le formatage du texte (Angular assainit, mais à contrôler).
-- [ ] **SEO** — portfolio sans SSR/prérendu ni balises meta / Open Graph. Envisager Angular SSR.
-- [ ] **Page de détail d'un écrit** — pas de route `/stories/:id` pour lire un texte complet, avec rendu Markdown.
+- [x] **`[innerHTML]`** dans `about` — le `style` inline (supprimé par le sanitizer) remplacé par du CSS ; conteneur `<p>` → `<div>` (paragraphes imbriqués invalides, cassaient l'hydratation SSR).
+- [x] **SEO** — Angular SSR (rendu à la requête), title/meta/Open Graph/canonical par page, `robots.txt` et `sitemap.xml` dynamiques.
+- [x] **Page de détail d'un écrit** — route `/stories/:id` avec rendu Markdown (`marked`) ; les brouillons affichent « not found » côté front.
+- [ ] **Déploiement SSR du portfolio** — le build produit désormais un serveur Node (`npm run serve:ssr:portfolio`) : le Dockerfile de prod doit lancer ce serveur (et non nginx en statique). Vérifier `siteUrl` dans `environment.prod.ts` (valeur supposée : `https://hugues-devallois.com`).
+- [ ] **Vraie 404 HTTP** — une page d'écrit inconnue renvoie un statut 200 (marquée `noindex`) ; renvoyer un 404 côté serveur.
 
 ## ⚙️ Outillage
 

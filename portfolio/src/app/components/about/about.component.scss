@@ -112,7 +112,9 @@
   font-weight: 300;
   margin-bottom: 2.5rem;
 }
-.narrative-text :global(strong) {
+/* Paragraphs come from [innerHTML], outside the view encapsulation */
+.narrative-text ::ng-deep p { margin-bottom: 1.2rem; }
+.narrative-text ::ng-deep strong {
   color: #fff;
   font-weight: 500;
 }
