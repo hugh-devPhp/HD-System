@@ -35,7 +35,7 @@ Cocher les éléments au fur et à mesure qu'ils sont traités.
 ## 🟢 Frontend
 
 - [x] **Découpage des composants admin** — templates et styles inline (pages de 230 à 450 lignes) extraits en fichiers `.html` / `.css`.
-- [ ] **Découpage du portfolio inachevé** — seul `navbar` utilise ses fichiers `.html` / `.scss` ; `about`, `contact`, `hero`, `projects`, `stories` ont encore leur template/style inline (les fichiers externes existent mais ne sont pas référencés).
+- [x] **Découpage du portfolio** — `about`, `contact`, `hero`, `projects`, `stories` utilisent désormais leurs fichiers `.html` / `.scss` (comme `navbar`).
 - [ ] **`[innerHTML]`** dans `portfolio/.../about.component.ts` — vérifier le formatage du texte (Angular assainit, mais à contrôler).
 - [ ] **SEO** — portfolio sans SSR/prérendu ni balises meta / Open Graph. Envisager Angular SSR.
 - [ ] **Page de détail d'un écrit** — pas de route `/stories/:id` pour lire un texte complet, avec rendu Markdown.

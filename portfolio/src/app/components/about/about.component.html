@@ -1,0 +1,60 @@
+<section id="about" class="about-section">
+  <div class="container">
+    <div class="about-grid">
+      <!-- Left: identity blocks -->
+      <div class="about-identity">
+        <div class="section-label">Identity</div>
+
+        <div class="identity-card engineer">
+          <div class="identity-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/>
+            </svg>
+          </div>
+          <div>
+            <div class="identity-label">Software Engineer</div>
+            <div class="identity-desc">Systems, APIs, clean architecture</div>
+          </div>
+        </div>
+
+        <div class="identity-slash">/</div>
+
+        <div class="identity-card writer">
+          <div class="identity-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/>
+            </svg>
+          </div>
+          <div>
+            <div class="identity-label">Screenwriter</div>
+            <div class="identity-desc">Film ideas, scripts, narratives</div>
+          </div>
+        </div>
+
+        <div class="about-stats">
+          <div class="stat">
+            <div class="stat-value">∞</div>
+            <div class="stat-label">Stories in progress</div>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat">
+            <div class="stat-value">01</div>
+            <div class="stat-label">Universe</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: narrative text -->
+      <div class="about-narrative">
+        <p class="narrative-text" [innerHTML]="formattedText"></p>
+
+        <div class="about-quote">
+          <div class="quote-bar"></div>
+          <blockquote>
+            Every system tells a story.<br/>Every story follows a system.
+          </blockquote>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
