@@ -1,0 +1,84 @@
+.page-header-row { display: flex; justify-content: space-between; align-items: flex-start; }
+.toolbar { display: flex; gap: 0.75rem; align-items: center; margin-top: 1rem; flex-wrap: wrap; }
+
+.view-toggle { display: flex; gap: 2px; background: rgba(255,255,255,0.04); border-radius: 4px; padding: 2px; }
+.view-btn {
+  display: flex; align-items: center; justify-content: center;
+  padding: 0.35rem;
+  background: none; border: none; border-radius: 3px;
+  color: rgba(255,255,255,0.3); cursor: pointer;
+  transition: all 0.15s ease;
+}
+.view-btn.active { background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.8); }
+
+/* Table */
+.td-title { font-size: 0.85rem; font-weight: 500; color: rgba(255,255,255,0.85); }
+.td-sub { font-size: 0.72rem; color: rgba(255,255,255,0.3); margin-top: 2px; }
+.tag-list { display: flex; gap: 0.3rem; flex-wrap: wrap; }
+.tag-chip {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.62rem;
+  color: rgba(255,255,255,0.4);
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.08);
+  padding: 0.15rem 0.45rem;
+  border-radius: 2px;
+}
+.tag-chip.more { color: rgba(212,0,26,0.7); border-color: rgba(212,0,26,0.2); background: rgba(212,0,26,0.06); }
+.link-icons { display: flex; gap: 0.5rem; }
+.link-icon {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.65rem;
+  color: rgba(255,255,255,0.3);
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.08);
+  padding: 0.2rem 0.45rem;
+  border-radius: 2px;
+  transition: all 0.2s ease;
+}
+.link-icon:hover { color: #fff; border-color: rgba(255,255,255,0.2); }
+.row-actions { display: flex; gap: 0.3rem; }
+
+/* Grid */
+.project-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1rem;
+}
+.add-card {
+  background: rgba(212,0,26,0.04);
+  border: 1px dashed rgba(212,0,26,0.2);
+  border-radius: 8px;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  color: rgba(212,0,26,0.5);
+  font-size: 0.8rem;
+  min-height: 160px;
+  transition: all 0.2s ease;
+}
+.add-card:hover { background: rgba(212,0,26,0.08); border-color: rgba(212,0,26,0.4); color: #D4001A; }
+.grid-card {
+  background: #111;
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 8px;
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  min-height: 160px;
+  transition: all 0.2s ease;
+}
+.grid-card:hover { border-color: rgba(255,255,255,0.12); }
+.grid-card-header { display: flex; justify-content: space-between; align-items: center; }
+.grid-card-title { font-family: 'Bebas Neue', sans-serif; font-size: 1.3rem; letter-spacing: 0.03em; }
+.grid-card-desc { font-size: 0.78rem; color: rgba(255,255,255,0.4); line-height: 1.6; }
+
+/* Form */
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.toggle-row { display: flex; align-items: center; gap: 0.75rem; padding: 0.6rem 0; }
+.toggle-label { font-size: 0.8rem; color: rgba(255,255,255,0.5); }
