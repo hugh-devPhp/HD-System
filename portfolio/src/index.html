@@ -9,6 +9,10 @@
     <meta property="og:title" content="HD — Engineer of Systems. Writer of Stories." />
     <meta property="og:description" content="Portfolio of Hugues-Devallois — Software Engineer & Screenwriter." />
     <link rel="icon" type="image/x-icon" href="favicon.ico" />
+    <!-- Apply the saved theme before first paint (the server always renders the dark theme) -->
+    <script>
+      try { document.documentElement.setAttribute('data-theme', localStorage.getItem('hd-theme') || 'dark'); } catch (e) {}
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet" />

@@ -1,0 +1,128 @@
+<div class="admin-layout">
+  <app-topbar title="Homepage" class="admin-topbar"></app-topbar>
+  <app-sidebar class="admin-sidebar"></app-sidebar>
+
+  <main class="admin-content">
+    <div class="page-header">
+      <div class="page-header-row">
+        <div>
+          <h1 class="page-title">Homepage Editor</h1>
+          <p class="page-sub">Edit all public-facing homepage content</p>
+        </div>
+        <div style="display:flex; gap:0.75rem">
+          <a href="http://localhost:4200" target="_blank" class="btn btn-secondary">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/>
+              <polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/>
+            </svg>
+            Preview Live
+          </a>
+          <button class="btn btn-primary" (click)="save()" [disabled]="saving()">
+            {{ saving() ? 'Saving…' : 'Save All Changes' }}
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="page-body" *ngIf="!loading()">
+      <div class="editor-layout">
+        <!-- Form -->
+        <div class="editor-fields">
+
+          <!-- Hero section -->
+          <div class="field-section">
+            <div class="field-section-title">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+              </svg>
+              Hero Section
+            </div>
+
+            <div class="form-group" *ngFor="let f of heroFields()">
+              <label class="form-label">
+                {{ f.label }}
+                <span class="field-hint">{{ f.hint }}</span>
+              </label>
+              <textarea *ngIf="f.multiline" class="form-input" [(ngModel)]="f.value" rows="3"></textarea>
+              <input *ngIf="!f.multiline" class="form-input" [(ngModel)]="f.value" />
+            </div>
+          </div>
+
+          <!-- About section -->
+          <div class="field-section">
+            <div class="field-section-title">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+              </svg>
+              About Section
+            </div>
+
+            <div class="form-group" *ngFor="let f of aboutFields()">
+              <label class="form-label">
+                {{ f.label }}
+                <span class="field-hint">{{ f.hint }}</span>
+              </label>
+              <textarea *ngIf="f.multiline" class="form-input" [(ngModel)]="f.value" rows="6"></textarea>
+              <input *ngIf="!f.multiline" class="form-input" [(ngModel)]="f.value" />
+            </div>
+          </div>
+
+          <!-- Contact section -->
+          <div class="field-section">
+            <div class="field-section-title">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/>
+              </svg>
+              Contact Section
+            </div>
+
+            <div class="form-group" *ngFor="let f of contactFields()">
+              <label class="form-label">
+                {{ f.label }}
+                <span class="field-hint">{{ f.hint }}</span>
+              </label>
+              <textarea *ngIf="f.multiline" class="form-input" [(ngModel)]="f.value" rows="2"></textarea>
+              <input *ngIf="!f.multiline" class="form-input" [(ngModel)]="f.value" />
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Live preview -->
+        <div class="editor-preview">
+          <div class="preview-label">
+            <span class="preview-dot"></span>
+            Live Preview
+          </div>
+          <div class="preview-card">
+            <div class="preview-hero">
+              <div class="preview-logo">HD</div>
+              <div class="preview-tagline">{{ getVal('tagline') }}</div>
+              <div class="preview-intro">{{ getVal('hero_intro') }}</div>
+              <div class="preview-btns">
+                <div class="preview-btn-primary">View Projects</div>
+                <div class="preview-btn-outline">Contact</div>
+              </div>
+            </div>
+            <div class="preview-divider"></div>
+            <div class="preview-about">
+              <div class="preview-section-label">ABOUT</div>
+              <div class="preview-about-text">{{ getVal('about_text') | slice:0:200 }}...</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="page-body" *ngIf="loading()">
+      <div class="empty-state">
+        <div class="spin-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="animation:spin 1s linear infinite">
+            <path d="M21 12a9 9 0 11-6.22-8.56"/>
+          </svg>
+        </div>
+        <p class="empty-sub">Loading content...</p>
+      </div>
+    </div>
+  </main>
+</div>

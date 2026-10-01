@@ -1,0 +1,79 @@
+<div class="admin-layout">
+  <app-topbar title="Media" class="admin-topbar"></app-topbar>
+  <app-sidebar class="admin-sidebar"></app-sidebar>
+
+  <main class="admin-content">
+    <div class="page-header">
+      <div class="page-header-row">
+        <div>
+          <h1 class="page-title">Media</h1>
+          <p class="page-sub">{{ files().length }} files uploaded</p>
+        </div>
+        <label class="btn btn-primary upload-label">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/>
+            <path d="M20.39 18.39A5 5 0 0018 9h-1.26A8 8 0 103 16.3"/>
+          </svg>
+          Upload Files
+          <input type="file" accept="image/*" multiple (change)="onFileSelect($event)" style="display:none" />
+        </label>
+      </div>
+    </div>
+
+    <div class="page-body">
+      <!-- Upload area -->
+      <div
+        class="drop-zone"
+        [class.drag-over]="dragOver()"
+        (dragover)="onDragOver($event)"
+        (dragleave)="dragOver.set(false)"
+        (drop)="onDrop($event)"
+      >
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="color:rgba(255,255,255,0.2)">
+          <polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/>
+          <path d="M20.39 18.39A5 5 0 0018 9h-1.26A8 8 0 103 16.3"/>
+        </svg>
+        <div class="drop-text">Drag & drop images here</div>
+        <div class="drop-sub">JPEG, PNG, WebP, GIF, SVG · Max 10MB each</div>
+      </div>
+
+      <!-- Uploading queue -->
+      <div class="upload-queue" *ngIf="uploading().length > 0">
+        <div class="upload-item" *ngFor="let u of uploading()">
+          <div class="upload-item-name">{{ u.name }}</div>
+          <div class="upload-progress">
+            <div class="progress-bar" [style.width]="u.progress + '%'"></div>
+          </div>
+          <div class="upload-pct">{{ u.progress }}%</div>
+        </div>
+      </div>
+
+      <!-- Media grid -->
+      <div class="media-grid" *ngIf="files().length > 0">
+        <div class="media-card" *ngFor="let f of files()">
+          <div class="media-thumb">
+            <img [src]="apiUrl + f.url" [alt]="f.filename" loading="lazy" />
+            <div class="media-overlay">
+              <button class="media-copy" (click)="copyUrl(f.url)" title="Copy URL">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/>
+                </svg>
+                Copy URL
+              </button>
+            </div>
+          </div>
+          <div class="media-info">
+            <div class="media-name">{{ f.filename }}</div>
+            <div class="media-size">{{ formatSize(f.size) }}</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="empty-state" *ngIf="files().length === 0 && !loading()">
+        <div class="empty-icon">🖼️</div>
+        <p class="empty-title">No media yet</p>
+        <p class="empty-sub">Upload images to use in your projects and stories</p>
+      </div>
+    </div>
+  </main>
+</div>

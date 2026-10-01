@@ -46,6 +46,9 @@ services:
       dockerfile: Dockerfile
     container_name: hd_portfolio
     restart: unless-stopped
+    environment:
+      # Used for server-side rendering: localhost:8000 does not reach the API from this container
+      API_INTERNAL_URL: http://api:8000
     ports:
       - "4300:4300"
     volumes:

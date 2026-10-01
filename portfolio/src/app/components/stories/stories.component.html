@@ -1,0 +1,82 @@
+<section id="stories" class="stories-section">
+  <!-- Film strip decoration -->
+  <div class="filmstrip top">
+    <div class="frame" *ngFor="let f of frames">{{ f }}</div>
+  </div>
+
+  <div class="container">
+    <div class="section-header">
+      <div class="section-label">Storytelling</div>
+      <h2 class="section-title">The Archive</h2>
+      <p class="section-sub">A library of cinematic ideas, narratives, and worlds in development.</p>
+    </div>
+
+    <!-- Type filters -->
+    <div class="type-filters">
+      <button
+        class="filter-btn"
+        [class.active]="activeFilter() === 'all'"
+        (click)="setFilter('all')"
+      >All</button>
+      <button
+        class="filter-btn"
+        *ngFor="let type of types"
+        [class.active]="activeFilter() === type.value"
+        (click)="setFilter(type.value)"
+      >{{ type.label }}</button>
+    </div>
+
+    <!-- Writing grid -->
+    <div class="stories-grid" *ngIf="filteredWritings.length > 0; else emptyState">
+      <article
+        class="story-card"
+        *ngFor="let story of filteredWritings; let i = index"
+        [style.animation-delay]="(i * 0.08) + 's'"
+      >
+        <!-- Type badge -->
+        <div class="story-type" [ngClass]="story.type">
+          {{ getTypeLabel(story.type) }}
+        </div>
+
+        <!-- Story meta -->
+        <div class="story-meta">
+          <span class="story-date">{{ story.created_at | date:'yyyy' }}</span>
+          <span class="meta-dot"></span>
+          <span class="story-status" [class.published]="story.status === 'published'">
+            {{ story.status }}
+          </span>
+        </div>
+
+        <h3 class="story-title">
+          <a class="story-link" [routerLink]="['/stories', story.id]">{{ story.title }}</a>
+        </h3>
+
+        <p class="story-excerpt" *ngIf="story.excerpt">{{ story.excerpt }}</p>
+        <p class="story-excerpt" *ngIf="!story.excerpt">
+          {{ story.content | slice:0:140 }}{{ story.content.length > 140 ? '...' : '' }}
+        </p>
+
+        <!-- Read more hint -->
+        <div class="story-footer">
+          <span class="read-more">
+            Read more
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+          </span>
+        </div>
+      </article>
+    </div>
+
+    <ng-template #emptyState>
+      <div class="empty-state">
+        <div class="empty-icon">📽</div>
+        <p>No stories found in this category.</p>
+      </div>
+    </ng-template>
+  </div>
+
+  <div class="filmstrip bottom">
+    <div class="frame" *ngFor="let f of frames">{{ f }}</div>
+  </div>
+</section>

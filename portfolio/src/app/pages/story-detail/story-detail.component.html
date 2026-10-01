@@ -1,0 +1,43 @@
+<article class="story-page" *ngIf="story() as story; else stateTpl">
+  <div class="container story-container">
+    <a routerLink="/" fragment="stories" class="back-link">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M19 12H5M12 19l-7-7 7-7"/>
+      </svg>
+      Back to the archive
+    </a>
+
+    <header class="story-header">
+      <div class="story-type" [ngClass]="story.type">{{ typeLabel(story.type) }}</div>
+      <h1 class="story-title">{{ story.title }}</h1>
+      <p class="story-lead" *ngIf="story.excerpt">{{ story.excerpt }}</p>
+      <div class="story-meta">
+        <time [attr.datetime]="story.created_at">{{ story.created_at | date:'d MMMM yyyy' }}</time>
+      </div>
+    </header>
+
+    <img *ngIf="coverUrl() as cover" [src]="cover" [alt]="story.title" class="story-cover" />
+
+    <div class="story-body" [innerHTML]="html()"></div>
+
+    <footer class="story-footer">
+      <a routerLink="/" fragment="stories" class="btn btn-outline">More stories</a>
+    </footer>
+  </div>
+</article>
+
+<ng-template #stateTpl>
+  <section class="story-page">
+    <div class="container story-container story-state">
+      <ng-container *ngIf="notFound(); else loadingTpl">
+        <div class="section-label">404</div>
+        <h1 class="story-title">Story not found</h1>
+        <p class="story-lead">This story does not exist or is not published yet.</p>
+        <a routerLink="/" fragment="stories" class="btn btn-primary">Back to the archive</a>
+      </ng-container>
+      <ng-template #loadingTpl>
+        <p class="loading">Loading…</p>
+      </ng-template>
+    </div>
+  </section>
+</ng-template>
