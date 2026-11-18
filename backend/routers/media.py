@@ -26,7 +26,8 @@ async def upload_media(
     if len(content) > MAX_SIZE:
         raise HTTPException(status_code=400, detail="File too large. Max 10MB.")
 
-    ext = file.filename.split(".")[-1] if "." in file.filename else "jpg"
+    original_name = file.filename or ""
+    ext = original_name.split(".")[-1] if "." in original_name else "jpg"
     filename = f"{uuid.uuid4().hex}.{ext}"
     filepath = os.path.join(UPLOAD_DIR, filename)
 
